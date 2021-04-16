@@ -1,6 +1,8 @@
+
+// Function to be called upon update of selection via HTML
 function loadPage(sampleId){
 
-    console.log(sampleId);
+    // console.log(sampleId);
 
     d3.json("samples.json").then((sampleData) => {
                 
@@ -66,33 +68,32 @@ function loadPage(sampleId){
         
         Plotly.newPlot('bubble', data, layout);
 
+    
+		// GAUGE CHART for Wash Frequency of Participants:
+		filteredData = sampleData.metadata.filter(obj => obj.id == sampleId);
+		//console.log(filteredData);
 
-    filteredData = sampleData.metadata.filter(obj => obj.id == sampleId);
-    console.log(filteredData);
-    
-    // GAUGE CHART for Wash Frequency of Participants
-    // TODO: Get wash frequency from metadata of currently displayed participant
-    var data = [
-        {
-            domain: { x: [0, 1], y: [0, 1] },
-            value: filteredData[0].wfreq,
-            title: { text: "Wash Frequency of Participant (Scrubs per Week)" },
-            type: "indicator",
-            mode: "gauge+number"
-        }
-    ];
-    
-    var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
-    Plotly.newPlot('gauge', data, layout);
-    
-    });
+		var data = [
+			{
+				domain: { x: [0, 1], y: [0, 1] },
+				value: filteredData[0].wfreq,
+				title: { text: "Wash Frequency of Participant (Scrubs per Week)" },
+				type: "indicator",
+				mode: "gauge+number"
+			}
+		];
+		
+		var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+		Plotly.newPlot('gauge', data, layout);
+		
+	});
 
 }
 
 // Use D3 fetch to read the JSON file
 d3.json("samples.json").then((sampleData) => {
     
-    console.log(sampleData);
+    //console.log(sampleData);
     var data = sampleData;
 
     var dropdown = d3.select("#selDataset");
@@ -114,7 +115,7 @@ d3.json("samples.json").then((sampleData) => {
 
 });
 
-// TODO: write function to select participant
+// Function to catch selection of participant in HTML
 function optionChanged(participant) {
 
     loadPage(participant);
